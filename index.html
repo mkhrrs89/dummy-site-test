@@ -1,27 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Dummy Test Site</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bullion Value Tracker</title>
     <style>
       body {
-        font-family: Arial;
-        background:blue;
-        padding:40px;
-        text-align:center;
+        font-family: Arial, sans-serif;
+        background: #282c34;
+        color: #fff;
+        padding: 40px;
+        text-align: center;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      h1 {
+        margin-bottom: 20px;
+        font-size: 28px;
+        color: #f4af42;
+      }
+      .price {
+        font-size: 24px;
+        margin: 10px 0;
+      }
+      #loading {
+        margin-top: 20px;
+        font-size: 16px;
+        color: #aaa;
       }
       .card {
-        padding:20px;
-        background:white;
-        border:2px solid #333;
-        border-radius:12px;
-        display:inline-block;
+        background: #333;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       }
     </style>
   </head>
   <body>
-    <div class="card">
-      <h1>Hello, Test Site bsbshshsjsh 👋</h1>
-      <p>If you see this on Netlify, the workflow works!</p>
+    <div class="container">
+      <h1>Bullion Value Tracker</h1>
+      <div class="card">
+        <div id="gold-price" class="price">Gold: Loading...</div>
+        <div id="silver-price" class="price">Silver: Loading...</div>
+        <div id="loading">Fetching the latest prices...</div>
+      </div>
     </div>
+    <script>
+      const API_BASE = "https://metals-api.com/api/latest?access_key=YOUR_API_KEY";
+
+      async function fetchBullionPrices() {
+        try {
+          const response = await fetch(API_BASE);
+          const data = await response.json();
+
+          if (data.success) {
+            // Extract gold and silver prices based on USD
+            const goldPrice = data.rates.XAU;
+            const silverPrice = data.rates.XAG;
+
+            // Update UI dynamically
+            document.getElementById("gold-price").innerText = `Gold: $${goldPrice} per ounce`;
+            document.getElementById("silver-price").innerText = `Silver: $${silverPrice} per ounce`;
+            document.getElementById("loading").style.display = "none";
+          } else {
+            throw new Error(data.error.info);
+          }
+        } catch (error) {
+          document.getElementById("loading").innerText = `Failed to load prices: ${error.message}`;
+        }
+      }
+
+      // Call function on page load
+      fetchBullionPrices();
+    </script>
   </body>
 </html>
