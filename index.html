@@ -36,6 +36,26 @@
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       }
+      .api-key-input {
+        margin-top: 20px;
+      }
+      .api-key-input input {
+        padding: 10px;
+        width: 300px;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+      }
+      .api-key-input button {
+        padding: 10px 20px;
+        background: #f4af42;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .api-key-input button:hover {
+        opacity: 0.9;
+      }
     </style>
   </head>
   <body>
@@ -46,11 +66,21 @@
         <div id="silver-price" class="price">Silver: Loading...</div>
         <div id="loading">Fetching the latest prices...</div>
       </div>
+      <div class="api-key-input">
+        <input type="text" id="api-key" placeholder="Enter your API key here" />
+        <button onclick="fetchBullionPrices()">Update Prices</button>
+      </div>
     </div>
     <script>
-      const API_BASE = "https://metals-api.com/api/latest?access_key=YOUR_API_KEY";
-
       async function fetchBullionPrices() {
+        const apiKey = document.getElementById("api-key").value;
+        const API_BASE = `https://metals-api.com/api/latest?access_key=${apiKey}`;
+
+        if (!apiKey) {
+          alert("Please enter a valid API key.");
+          return;
+        }
+
         try {
           const response = await fetch(API_BASE);
           const data = await response.json();
@@ -71,9 +101,6 @@
           document.getElementById("loading").innerText = `Failed to load prices: ${error.message}`;
         }
       }
-
-      // Call function on page load
-      fetchBullionPrices();
     </script>
   </body>
 </html>
