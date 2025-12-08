@@ -1,106 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bullion Value Tracker</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background: #282c34;
-        color: #fff;
-        padding: 40px;
-        text-align: center;
-      }
-      .container {
-        max-width: 600px;
-        margin: 0 auto;
-      }
-      h1 {
-        margin-bottom: 20px;
-        font-size: 28px;
-        color: #f4af42;
-      }
-      .price {
-        font-size: 24px;
-        margin: 10px 0;
-      }
-      #loading {
-        margin-top: 20px;
-        font-size: 16px;
-        color: #aaa;
-      }
-      .card {
-        background: #333;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      }
-      .api-key-input {
-        margin-top: 20px;
-      }
-      .api-key-input input {
-        padding: 10px;
-        width: 300px;
-        border: 1px solid #aaa;
-        border-radius: 4px;
-      }
-      .api-key-input button {
-        padding: 10px 20px;
-        background: #f4af42;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-      .api-key-input button:hover {
-        opacity: 0.9;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Bullion Value Tracker</h1>
-      <div class="card">
-        <div id="gold-price" class="price">Gold: Loading...</div>
-        <div id="silver-price" class="price">Silver: Loading...</div>
-        <div id="loading">Fetching the latest prices...</div>
-      </div>
-      <div class="api-key-input">
-        <input type="text" id="api-key" placeholder="Enter your API key here" />
-        <button onclick="fetchBullionPrices()">Update Prices</button>
-      </div>
-    </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dummy Site Test</title>
+</head>
+<body>
+    <h1>Welcome to Dummy Site Test</h1>
     <script>
-      async function fetchBullionPrices() {
-        const apiKey = document.getElementById("api-key").value;
-        const API_BASE = `https://metals-api.com/api/latest?access_key=${apiKey}`;
-
-        if (!apiKey) {
-          alert("Please enter a valid API key.");
-          return;
-        }
-
-        try {
-          const response = await fetch(API_BASE);
-          const data = await response.json();
-
-          if (data.success) {
-            // Extract gold and silver prices based on USD
-            const goldPrice = data.rates.XAU;
-            const silverPrice = data.rates.XAG;
-
-            // Update UI dynamically
-            document.getElementById("gold-price").innerText = `Gold: $${goldPrice} per ounce`;
-            document.getElementById("silver-price").innerText = `Silver: $${silverPrice} per ounce`;
-            document.getElementById("loading").style.display = "none";
-          } else {
-            throw new Error(data.error.info);
-          }
-        } catch (error) {
-          document.getElementById("loading").innerText = `Failed to load prices: ${error.message}`;
-        }
-      }
+        const apiKey = '7974a8cf2f924cf9063d8905c30f1105';
+        // Fetch from the API using the hardcoded key
+        fetch(`https://api.example.com/data?key=${apiKey}`)
+            .then(response => response.json())
+            .then(data => console.log(data));
     </script>
-  </body>
+</body>
 </html>
